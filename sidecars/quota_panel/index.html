@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'">
+  <title>Лимиты Antigravity</title>
+  <script src="/preload.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div id="loading" class="loading" aria-live="polite" aria-busy="true">
+    <div class="skel-header">
+      <div class="skel-stack" style="flex: 1">
+        <span class="skel skel-line" style="width: 52%; height: 14px"></span>
+        <span class="skel skel-line" style="width: 34%"></span>
+      </div>
+      <span class="skel skel-btn"></span>
+    </div>
+    <div class="skel-grid">
+      <div class="skel-card">
+        <span class="skel skel-line" style="width: 36%; height: 13px"></span>
+        <div class="skel-circles">
+          <span class="skel skel-circle"></span>
+          <span class="skel skel-circle"></span>
+        </div>
+      </div>
+      <div class="skel-card">
+        <span class="skel skel-line" style="width: 42%; height: 13px"></span>
+        <div class="skel-circles">
+          <span class="skel skel-circle"></span>
+          <span class="skel skel-circle"></span>
+        </div>
+      </div>
+    </div>
+    <div class="skel-list">
+      <span class="skel skel-row"></span>
+      <span class="skel skel-row"></span>
+    </div>
+    <p class="loading-caption">Загружаем лимиты моделей…</p>
+  </div>
+
+  <div id="app" class="app hidden">
+    <header class="header">
+      <div class="header-top">
+        <div class="title-wrap">
+          <h1 class="title">Лимиты Antigravity</h1>
+          <span id="live-pill" class="live-pill" role="status" title="Автоматическое обновление">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="live-label">Live</span>
+          </span>
+        </div>
+        <button id="refresh-btn" class="icon-btn" type="button" title="Обновить сейчас" aria-label="Обновить лимиты">
+          <svg class="refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+            <polyline points="21 3 21 9 15 9"/>
+          </svg>
+          <span class="btn-label">Обновить</span>
+        </button>
+      </div>
+      <div id="plan-bar" class="plan-bar hidden" aria-label="Тариф и кредиты"></div>
+    </header>
+
+    <main class="main">
+      <div id="error-banner" class="error-banner hidden" role="alert">
+        <div class="error-text">
+          <strong>Не удалось обновить лимиты</strong>
+          <span id="error-message"></span>
+        </div>
+        <button id="retry-btn" class="retry-btn" type="button">Повторить</button>
+      </div>
+
+      <div id="legacy-hint" class="info-banner hidden" role="status">
+        Чтобы появились 5-часовые и недельные лимиты, выключите и включите плагин Quota Monitor в настройках Plugins.
+      </div>
+
+      <section id="pools-section" class="section" aria-labelledby="pools-heading">
+        <div class="section-head">
+          <h2 id="pools-heading" class="section-title">Пулы квот</h2>
+          <span id="updated-at" class="updated-at"></span>
+        </div>
+        <div id="pools-grid" class="pools-grid"></div>
+      </section>
+
+      <section id="families-section" class="section" aria-label="Модели по семействам">
+        <details id="families-details" class="collapsible-details">
+          <summary id="families-summary" class="collapsible-summary">Модели по семействам (0)</summary>
+          <div id="families-list" class="families-list"></div>
+        </details>
+      </section>
+
+      <section id="unavailable-section" class="section hidden" aria-label="Недоступные модели">
+        <details id="unavailable-details" class="collapsible-details">
+          <summary id="unavailable-summary" class="collapsible-summary"></summary>
+          <ul id="unavailable-list" class="unavailable-list"></ul>
+        </details>
+      </section>
+
+      <section id="settings-section" class="section settings-card" aria-labelledby="settings-heading">
+        <div class="section-head">
+          <h2 id="settings-heading" class="section-title">Настройки и уведомления</h2>
+          <span id="menubar-status" class="section-meta"></span>
+        </div>
+
+        <div class="settings-list">
+          <label class="toggle-row" for="pref-notifications">
+            <span class="toggle-copy">
+              <span class="toggle-title">Уведомления macOS</span>
+              <span class="toggle-sub">Оповещать при снижении квоты ниже порогов</span>
+            </span>
+            <input id="pref-notifications" class="switch" type="checkbox">
+          </label>
+
+          <label class="toggle-row" for="pref-reset">
+            <span class="toggle-copy">
+              <span class="toggle-title">Уведомлять о сбросе до 100%</span>
+              <span class="toggle-sub">Сообщить, когда лимит пула восстановится</span>
+            </span>
+            <input id="pref-reset" class="switch" type="checkbox">
+          </label>
+
+          <label class="toggle-row" for="pref-menubar">
+            <span class="toggle-copy">
+              <span class="toggle-title">Значок в Menu Bar macOS</span>
+              <span class="toggle-sub">Кольцо минимальной квоты в строке меню</span>
+            </span>
+            <input id="pref-menubar" class="switch" type="checkbox">
+          </label>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-label">Пороги уведомлений</div>
+          <div id="threshold-chips" class="chip-row" role="group" aria-label="Пороги уведомлений">
+            <button class="chip" type="button" data-threshold="50">50%</button>
+            <button class="chip" type="button" data-threshold="25">25%</button>
+            <button class="chip" type="button" data-threshold="10">10%</button>
+            <button class="chip" type="button" data-threshold="0">0%</button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-label">Интервал опроса</div>
+          <div id="interval-chips" class="chip-row" role="group" aria-label="Интервал опроса">
+            <button class="chip" type="button" data-interval="10">10с</button>
+            <button class="chip" type="button" data-interval="30">30с</button>
+            <button class="chip" type="button" data-interval="60">60с</button>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button id="notify-test-btn" class="secondary-btn" type="button">Тест уведомления</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</body>
+</html>

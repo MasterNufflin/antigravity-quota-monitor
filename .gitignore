@@ -1,0 +1,9 @@
+# Runtime data & local builds
+sidecars/quota_panel/.data/
+sidecars/quota_panel/menubar
+sidecars/quota_panel/menubar.new
+
+# OS & logs
+.DS_Store
+*.log
+node_modules/

@@ -1,0 +1,18 @@
+{
+  "name": "quota-monitor",
+  "displayName": "Quota Monitor",
+  "description": "Live Antigravity 5-hour and weekly model quota rings, reset countdowns, macOS notifications, and a native macOS menu bar indicator.",
+  "logo": "assets/logo.svg",
+  "version": "1.0.0",
+  "author": {
+    "name": "iazazello",
+    "url": "https://github.com/iazazello"
+  },
+  "homepage": "https://github.com/iazazello/antigravity-quota-monitor",
+  "repository": "https://github.com/iazazello/antigravity-quota-monitor",
+  "suggestedPrompts": [
+    "Open the Quota Monitor panel to inspect current 5-hour and weekly limits",
+    "Check which Antigravity model pools are running low",
+    "Customize Quota Monitor notification thresholds"
+  ]
+}
