@@ -2,7 +2,7 @@
 set -euo pipefail
 
 TARGET_DIR="${HOME}/.gemini/config/plugins/quota-monitor"
-REPO_URL="https://github.com/iazazello/antigravity-quota-monitor.git"
+REPO_URL="https://github.com/MasterNufflin/antigravity-quota-monitor.git"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Installing Antigravity Quota Monitor to ${TARGET_DIR}..."

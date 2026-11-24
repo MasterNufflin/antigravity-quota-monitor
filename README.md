@@ -20,12 +20,12 @@ Zero extra LLM tokens · 100% local · No npm dependencies · Auto-syncs Light &
 
 ### Option 1 — Antigravity CLI (Recommended)
 ```bash
-agy plugin install https://github.com/iazazello/antigravity-quota-monitor
+agy plugin install https://github.com/MasterNufflin/antigravity-quota-monitor
 ```
 
 ### Option 2 — Quick Install Script (macOS / Linux)
 ```bash
-git clone https://github.com/iazazello/antigravity-quota-monitor.git
+git clone https://github.com/MasterNufflin/antigravity-quota-monitor.git
 cd antigravity-quota-monitor
 ./install.sh
 ```
@@ -69,7 +69,7 @@ Antigravity automatically discovers and starts the plugin — no restart require
 
 **Antigravity Quota Monitor** — плагин для Google Antigravity, который показывает **5-часовые** и **недельные** лимиты моделей прямо в боковой панели, в верхней строке **Menu Bar macOS** (кружок с процентом) и через **системные уведомления macOS**.
 
-- Установка: `agy plugin install https://github.com/iazazello/antigravity-quota-monitor` или клонирование + `./install.sh`.
+- Установка: `agy plugin install https://github.com/MasterNufflin/antigravity-quota-monitor` или клонирование + `./install.sh`.
 - Открытие панели: кнопка **`+`** в правом верхнем углу чата Antigravity → **Quota Monitor**.
 - На macOS кружок в Menu Bar автоматически собирается локально из `menubar.swift` при первом запуске (работает на Apple Silicon и Intel).
 
@@ -77,4 +77,4 @@ Antigravity automatically discovers and starts the plugin — no restart require
 
 ## License
 
-[MIT](./LICENSE) © 2026 iazazello
+[MIT](./LICENSE) © 2026 MasterNufflin
