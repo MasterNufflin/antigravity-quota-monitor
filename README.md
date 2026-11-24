@@ -65,13 +65,13 @@ Antigravity automatically discovers and starts the plugin — no restart require
 
 ---
 
-## Кратко на русском
+## Коротко українською
 
-**Antigravity Quota Monitor** — плагин для Google Antigravity, который показывает **5-часовые** и **недельные** лимиты моделей прямо в боковой панели, в верхней строке **Menu Bar macOS** (кружок с процентом) и через **системные уведомления macOS**.
+**Antigravity Quota Monitor** — плагін для Google Antigravity, який показує **5-годинні** та **тижневі** ліміти моделей у бічній панелі, у верхньому рядку **Menu Bar macOS** (кружечок із відсотком) та через **системні сповіщення macOS**.
 
-- Установка: `agy plugin install https://github.com/MasterNufflin/antigravity-quota-monitor` или клонирование + `./install.sh`.
-- Открытие панели: кнопка **`+`** в правом верхнем углу чата Antigravity → **Quota Monitor**.
-- На macOS кружок в Menu Bar автоматически собирается локально из `menubar.swift` при первом запуске (работает на Apple Silicon и Intel).
+- Встановлення: `agy plugin install https://github.com/MasterNufflin/antigravity-quota-monitor` або клонування + `./install.sh`.
+- Відкриття панелі: кнопка **`+`** у правому верхньому куті чату Antigravity → **Quota Monitor**.
+- На macOS кружечок у Menu Bar автоматично компілюється локально з `menubar.swift` під час першого запуску (працює на Apple Silicon та Intel).
 
 ---
 
