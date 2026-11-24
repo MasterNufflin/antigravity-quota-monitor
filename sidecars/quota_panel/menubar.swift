@@ -188,32 +188,62 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return image
     }
 
-    private func updateStatusButton() {
-        guard let button = statusItem.button else { return }
-
-        var fractions: [Double] = []
+    private func resolvePrimaryFraction() -> Double? {
         if let groups = snapshot?.groups, !groups.isEmpty {
+            let geminiGroup = groups.first { group in
+                let id = (group.id ?? "").lowercased()
+                let name = (group.name ?? "").lowercased()
+                return id == "gemini" || name.contains("gemini")
+            }
+
+            if let buckets = geminiGroup?.buckets, !buckets.isEmpty {
+                if let fiveHour = buckets.first(where: {
+                    $0.window == "5h" || ($0.id ?? "").lowercased().contains("5h")
+                }) {
+                    return min(1.0, max(0.0, fiveHour.remainingFraction ?? 0.0))
+                }
+                return min(1.0, max(0.0, buckets[0].remainingFraction ?? 0.0))
+            }
+
             for group in groups {
-                for bucket in group.buckets ?? [] {
-                    fractions.append(min(1.0, max(0.0, bucket.remainingFraction ?? 0.0)))
+                if let fiveHour = (group.buckets ?? []).first(where: {
+                    $0.window == "5h" || ($0.id ?? "").lowercased().contains("5h")
+                }) {
+                    return min(1.0, max(0.0, fiveHour.remainingFraction ?? 0.0))
+                }
+            }
+
+            for group in groups {
+                if let first = group.buckets?.first {
+                    return min(1.0, max(0.0, first.remainingFraction ?? 0.0))
                 }
             }
         }
-        if fractions.isEmpty, let pools = snapshot?.pools, !pools.isEmpty {
-            for pool in pools {
-                fractions.append(min(1.0, max(0.0, pool.remainingFraction ?? 0.0)))
+
+        if let pools = snapshot?.pools, !pools.isEmpty {
+            if let geminiPool = pools.first(where: {
+                ($0.name ?? "").lowercased().contains("gemini")
+            }) {
+                return min(1.0, max(0.0, geminiPool.remainingFraction ?? 0.0))
             }
+            return pools.map { min(1.0, max(0.0, $0.remainingFraction ?? 0.0)) }.min()
         }
 
-        guard let minFraction = fractions.min() else {
+        return nil
+    }
+
+    private func updateStatusButton() {
+        guard let button = statusItem.button else { return }
+
+        guard let primaryFraction = resolvePrimaryFraction() else {
             button.image = makeRingImage(fraction: nil, color: .secondaryLabelColor)
             button.title = " --%"
             return
         }
 
-        let minPct = Int(round(minFraction * 100.0))
-        button.image = makeRingImage(fraction: minFraction, color: colorForFraction(minFraction))
-        button.title = " \(minPct)%"
+        let pct = Int(round(primaryFraction * 100.0))
+        button.image = makeRingImage(fraction: primaryFraction, color: colorForFraction(primaryFraction))
+        button.title = " \(pct)%"
     }
 
     private func parseISODate(_ str: String?) -> Date? {
